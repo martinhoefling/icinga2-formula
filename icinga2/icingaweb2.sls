@@ -94,3 +94,10 @@ enable_command_feature:
     - watch_in:
       - service: icinga2
     - unless: icinga2 feature list | grep Enabled | grep command
+
+enable_monitoring_module:
+  cmd.run:
+    - unless: icingacli module list | grep monitoring | grep enabled
+    - name: icingacli module enable monitoring
+    - require:
+      - pkg: icingaweb2_pkgs
