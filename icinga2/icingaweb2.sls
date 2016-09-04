@@ -131,4 +131,24 @@ director-db:
     - require:
       - postgres_user: director-db-user
 
+director_dir:
+  git.latest:
+    - target: /usr/share/icingaweb2/modules/director
+    - name: https://github.com/Icinga/icingaweb2-module-director.git
+    - require:
+      - pkg: icingaweb2_pkgs
+
+migrate_director:
+  cmd.run:
+    - name: icingacli director migration run --verbose
+    - onchanges:
+      - git: director_dir
+
+enable_director_module:
+  cmd.run:
+    - unless: icingacli module list | grep director | grep enabled
+    - name: icingacli module enable director
+    - require:
+      - git: director_dir
+
 {% endif %}
