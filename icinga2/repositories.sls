@@ -6,7 +6,7 @@ debmon_repo_required_packages:
 icinga_repo:
   pkgrepo.managed:
     - humanname: debmon
-    - name: deb http://debmon.org/debmon debmon-wheezy main
+    - name: deb http://debmon.org/debmon debmon-{{ grains['oscodename'] }} main
     - file: /etc/apt/sources.list.d/debmon.list
     - key_url: http://debmon.org/debmon/repo.key
     - require:
@@ -18,6 +18,5 @@ icinga_repo:
 icinga_repo:
   pkgrepo.managed:
     - ppa: formorer/icinga
-
 
 {% endif %}
