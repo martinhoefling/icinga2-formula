@@ -10,7 +10,7 @@
 {%- set director_db_user = config.get('director_db_user', 'director') %}
 {%- set director_db_password = config.get('director_db_password', 'director') %}
 {%- set director_db_name = config.get('director_db_name', 'director') %}
-{%- set director_db_name = config.get('use_director', true) %}
+{%- set use_director = config.get('use_director', true) %}
 
 {%- set users = config.get('users', {}) %}
 {%- set php_timezone = config.get('php_timezone', 'Europe/Berlin') %}
