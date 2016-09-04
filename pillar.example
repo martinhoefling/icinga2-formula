@@ -1,6 +1,7 @@
 icinga2:
   lookup:
     icingaweb2:
+      use_director: true
       db_user: icingaweb2
       db_password: icingaweb2
       db_name: icingaweb2

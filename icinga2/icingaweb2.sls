@@ -7,6 +7,11 @@
 {%- set icinga_db_user =  salt['cmd.shell']('grep -e ^dbc_dbuser= /etc/dbconfig-common/icinga2-ido-pgsql.conf | cut -d = -f 2 | sed "s/\'//g"') %}
 {%- set icinga_db_password = salt['cmd.shell']('grep -e ^dbc_dbpass= /etc/dbconfig-common/icinga2-ido-pgsql.conf | cut -d = -f 2 | sed "s/\'//g"') %}
 {%- set icinga_db_name =  salt['cmd.shell']('grep -e ^dbc_dbname= /etc/dbconfig-common/icinga2-ido-pgsql.conf | cut -d = -f 2 | sed "s/\'//g"') %}
+{%- set director_db_user = config.get('director_db_user', 'director') %}
+{%- set director_db_password = config.get('director_db_password', 'director') %}
+{%- set director_db_name = config.get('director_db_name', 'director') %}
+{%- set director_db_name = config.get('use_director', true) %}
+
 {%- set users = config.get('users', {}) %}
 {%- set php_timezone = config.get('php_timezone', 'Europe/Berlin') %}
 
@@ -24,6 +29,9 @@ icingaweb2_pkgs:
       - php5-pgsql
       - php5-imagick
       - php5-intl
+{%- if use_director %}
+      - php5-curl
+{%- endif %}
 
 icingaweb2-db-user:
   postgres_user.present:
@@ -86,7 +94,11 @@ php_timezone_set:
         icinga_db_password: {{ icinga_db_password }}
         icinga_db_user: {{ icinga_db_user }}
         icinga_db_name: {{ icinga_db_name }}
+        director_db_password: {{ director_db_password }}
+        director_db_user: {{ director_db_user }}
+        director_db_name: {{ director_db_name }}
         users: {{ users }}
+        use_director: use_director
 
 enable_command_feature:
   cmd.run:
@@ -101,3 +113,22 @@ enable_monitoring_module:
     - name: icingacli module enable monitoring
     - require:
       - pkg: icingaweb2_pkgs
+
+{% if use_director %}
+
+director-db-user:
+  postgres_user.present:
+    - name: {{ director_db_user }}
+    - password: {{ director_db_password }}
+    - require:
+      - sls: icinga2.postgresql
+
+director-db:
+  postgres_database.present:
+    - name: {{ director_db_name }}
+    - owner: {{ director_db_user }}
+    - owner_recurse: True
+    - require:
+      - postgres_user: director-db-user
+
+{% endif %}
