@@ -1,7 +1,7 @@
 include:
   - icinga2
 
-enable_ido:
+enable_syslog_feature:
   cmd.run:
     - name: icinga2 feature enable syslog
     - require:
