@@ -59,7 +59,7 @@ icingaweb2-user-{{ username }}:
     - name: echo "INSERT INTO icingaweb_user (name, active, password_hash) VALUES ('{{ username }}', 1, '{{ password_hash }}');" | psql -v ON_ERROR_STOP=1 --host=localhost --dbname={{ db_name }} --username={{ db_user }}
     - env:
       - PGPASSWORD: {{ db_password }}
-    - unless: echo "SELECT * FROM icingaweb_user where name='{{ username }}';" | psql -v ON_ERROR_STOP=1 --host=localhost --dbname={{ db_name }} --username={{ db_user }}
+    - unless: echo "SELECT * FROM icingaweb_user where name='{{ username }}';" | psql -v ON_ERROR_STOP=1 --host=localhost --dbname={{ db_name }} --username={{ db_user }} | grep {{ username }}
 
 {% endfor %}
 
