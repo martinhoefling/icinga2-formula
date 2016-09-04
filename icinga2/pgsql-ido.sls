@@ -38,6 +38,7 @@ enable_ido:
       - pkg: icinga2-ido-pgsql
     - watch_in:
       - service: icinga2
+    - unless: icinga2 feature list | grep Enabled | grep ido-pgsql
 
 /etc/dbconfig-common/icinga-idoutils.conf:
   file.symlink:
