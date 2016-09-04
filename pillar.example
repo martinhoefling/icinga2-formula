@@ -1,5 +1,14 @@
 icinga2:
   lookup:
+    icingaweb2:
+      db_user: icingaweb2
+      db_password: icingaweb2
+      db_name: icingaweb2
+      users:
+        root: $apr1$VxiIkiLL$44VZAqDUUsOoW4zns1USw0
+        anotheradmin: $apr1$R9s6cQSW$C5KdQSdm5/1XACnRFMWNO/
+      php_timezone: Europe/Berlin
+
     pkgs:
       - nagios-nrpe-plugin
     nrpe:
