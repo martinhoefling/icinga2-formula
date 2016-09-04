@@ -88,7 +88,7 @@ php_timezone_set:
         icinga_db_name: {{ icinga_db_name }}
         users: {{ users }}
 
-enable_ido:
+enable_command_feature:
   cmd.run:
     - name: icinga2 feature enable command
     - require:
