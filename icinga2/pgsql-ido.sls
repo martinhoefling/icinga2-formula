@@ -23,9 +23,9 @@ debconf_dbconfig_pgsql_dbname:
 icinga2-ido-pgsql:
   pkg.installed:
     - require:
-      - cmd: debconf_enable_pgsql_ido
-      - cmd: debconf_dbconfig_pgsql_ido
-      - cmd: debconf_dbconfig_pgsql_dbname
+      - debconf: debconf_enable_pgsql_ido
+      - debconf: debconf_dbconfig_pgsql_ido
+      - debconf: debconf_dbconfig_pgsql_dbname
       - pkg: icinga2
       - pkg: postgresql_packages_for_icinga_ido
     - watch_in:
