@@ -151,4 +151,11 @@ enable_director_module:
     - require:
       - git: director_dir
 
+enable_api_feature:
+  cmd.run:
+    - name: icinga2 feature enable api
+    - watch_in:
+      - service: icinga2
+    - unless: icinga2 feature list | grep Enabled | grep api
+
 {% endif %}
