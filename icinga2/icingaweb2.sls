@@ -4,9 +4,9 @@
 {%- set db_user = config.get('db_user', 'icingaweb2') %}
 {%- set db_password = config.get('db_password', 'icingaweb2') %}
 {%- set db_name = config.get('db_name', 'icingaweb2') %}
-{%- set icinga_db_user =  salt['cmd.shell']("grep -e ^dbc_dbuser= /etc/dbconfig-common/icinga2-ido-pgsql.conf | cut -d = -f 2 | sed s/\'//g") %} %}
+{%- set icinga_db_user =  salt['cmd.shell']("grep -e ^dbc_dbuser= /etc/dbconfig-common/icinga2-ido-pgsql.conf | cut -d = -f 2 | sed s/\'//g") %}
 {%- set icinga_db_password = salt['cmd.shell']("grep -e ^dbc_dbpass= /etc/dbconfig-common/icinga2-ido-pgsql.conf | cut -d = -f 2 | sed s/\'//g") %}
-{%- set icinga_db_name =  salt['cmd.shell']("grep -e ^dbc_dbname= /etc/dbconfig-common/icinga2-ido-pgsql.conf | cut -d = -f 2 | sed s/\'//g") %} %}
+{%- set icinga_db_name =  salt['cmd.shell']("grep -e ^dbc_dbname= /etc/dbconfig-common/icinga2-ido-pgsql.conf | cut -d = -f 2 | sed s/\'//g") %}
 {%- set users = config.get('users', {}) %}
 {%- set php_timezone = config.get('php_timezone', 'Europe/Berlin') %}
 
