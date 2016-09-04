@@ -91,8 +91,6 @@ php_timezone_set:
 enable_command_feature:
   cmd.run:
     - name: icinga2 feature enable command
-    - require:
-      - sls: icinga2
     - watch_in:
       - service: icinga2
     - unless: icinga2 feature list | grep Enabled | grep command
