@@ -31,6 +31,7 @@ icingaweb2_pkgs:
       - php5-intl
 {%- if use_director %}
       - php5-curl
+      - git
 {%- endif %}
 
 icingaweb2-db-user:
@@ -143,6 +144,9 @@ migrate_director:
     - name: icingacli director migration run --verbose
     - onchanges:
       - git: director_dir
+    - require:
+      - cmd: enable_director_module
+      - cmd: enable_api_feature
 
 enable_director_module:
   cmd.run:
@@ -157,5 +161,13 @@ enable_api_feature:
     - watch_in:
       - service: icinga2
     - unless: icinga2 feature list | grep Enabled | grep api
+
+configure_api:
+  cmd.run:
+    - name: icinga2 api setup
+    - onchanges:
+      - cmd: enable_api_feature
+    - watch_in:
+      - service: icinga2
 
 {% endif %}
