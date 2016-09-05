@@ -4,7 +4,7 @@ include:
 {% from "icinga2/map.jinja" import icinga2 with context %}
 
 {%- macro printconfig(type, object, name, config, applyto="")%}
-        {{ type }} {{ object }} "{{ name }}" {% if applyto !="" %}to {% endif %}{{ applyto }}{% if applyto !="" %} {% endif %}{
+        {{ type }} {{ object }} "{{ name }}" {% if applyto != "" %}to {% endif %}{{ applyto }}{% if applyto != "" %} {% endif %}{
 {%- for key, value in config.iteritems()%}
 {%- if key == "import" %}
           {{key}} "{{ value }}"
@@ -37,7 +37,8 @@ include:
 
 {%- elif value is number %}
           {{ key }} = {{ value }}
-
+{%- elif key in ['times.begin', 'times.end', 'disable_checks'] %}
+          {{ key }} = {{ value }}
 {%- else %}
           {{ key }} = "{{ value }}"
 {%- endif %}
@@ -138,7 +139,7 @@ icinga2:
 ### End template configuration
 
 ### Begin apply configuration
-{% set applies = { "downtimes": "ScheduledDowntime", "services": "Service", "notifications": "Notification"} %}
+{% set applies = { "downtimes": "ScheduledDowntime", "services": "Service", "notifications": "Notification", "dependencies": "Dependency"} %}
 {% for type, objecttype in applies.iteritems() %}
 
 {% if icinga2.conf[type] is defined %}
