@@ -145,6 +145,7 @@ director_dir:
     - name: https://github.com/Icinga/icingaweb2-module-director.git
     - require:
       - pkg: icingaweb2_pkgs
+    - force_fetch: True
 
 migrate_director:
   cmd.run:
