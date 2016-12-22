@@ -117,6 +117,40 @@ icinga2:
 {% endif %}
 ### End hostgroups configuration
 
+### Begin usergroups configuration
+
+{% if icinga2.conf.usergroups is defined %}
+
+{% for usergroup, usergroupconf in icinga2.conf.usergroups.iteritems() %}
+/etc/icinga2/conf.d/usergroups/{{ usergroup }}.conf:
+  file.managed:
+    - makedirs: True
+    - watch_in:
+      - service: icinga2
+    - contents: |
+{{ printconfig("object", "UserGroup", usergroup, usergroupconf) }}
+
+{% endfor %}
+{% endif %}
+### End usergroup configuration
+
+### Begin users configuration
+
+{% if icinga2.conf.users is defined %}
+
+{% for user, userconf in icinga2.conf.users.iteritems() %}
+/etc/icinga2/conf.d/users/{{ user }}.conf:
+  file.managed:
+    - makedirs: True
+    - watch_in:
+      - service: icinga2
+    - contents: |
+{{ printconfig("object", "user", user, userconf) }}
+
+{% endfor %}
+{% endif %}
+### End user configuration
+
 ### Begin template configuration
 {% if icinga2.conf.templates is defined %}
 /etc/icinga2/conf.d/templates:
@@ -139,7 +173,7 @@ icinga2:
 ### End template configuration
 
 ### Begin apply configuration
-{% set applies = { "downtimes": "ScheduledDowntime", "services": "Service", "notifications": "Notification", "dependencies": "Dependency", "users": "User", "usergroups": "UserGroup" } %}
+{% set applies = { "downtimes": "ScheduledDowntime", "services": "Service", "notifications": "Notification", "dependencies": "Dependency"} %}
 {% for type, objecttype in applies.iteritems() %}
 
 {% if icinga2.conf[type] is defined %}
