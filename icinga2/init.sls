@@ -139,7 +139,7 @@ icinga2:
 ### End template configuration
 
 ### Begin apply configuration
-{% set applies = { "downtimes": "ScheduledDowntime", "services": "Service", "notifications": "Notification", "dependencies": "Dependency"} %}
+{% set applies = { "downtimes": "ScheduledDowntime", "services": "Service", "notifications": "Notification", "dependencies": "Dependency", "users": "User", "usergroups": "UserGroup" } %}
 {% for type, objecttype in applies.iteritems() %}
 
 {% if icinga2.conf[type] is defined %}
