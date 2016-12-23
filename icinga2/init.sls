@@ -145,7 +145,7 @@ icinga2:
     - watch_in:
       - service: icinga2
     - contents: |
-{{ printconfig("object", "user", user, userconf) }}
+{{ printconfig("object", "User", user, userconf) }}
 
 {% endfor %}
 {% endif %}
