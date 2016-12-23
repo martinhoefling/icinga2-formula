@@ -27,7 +27,7 @@ include:
 {%- endfor %}
           }
 
-{%- elif key in ["states", "types", "user_groups", "groups"] %}
+{%- elif key in ["states", "types", "user_groups", "groups", "users"] %}
           {{ key }} = [ {{ value|join(",") }} ]
 
 {%- elif key == "assign" or key == "ignore" %}
