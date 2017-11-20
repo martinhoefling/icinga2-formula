@@ -63,7 +63,7 @@ icingaweb2-db:
 
 icingaweb2-database-schemas:
   cmd.run:
-    - name: psql -v ON_ERROR_STOP=1 --host=localhost --dbname= {{ db_name }}  --username={{ db_user }} < /usr/share/icingaweb2/etc/schema/pgsql.schema.sql
+    - name: psql -v ON_ERROR_STOP=1 --host=localhost --dbname={{ db_name }}  --username={{ db_user }} < /usr/share/icingaweb2/etc/schema/pgsql.schema.sql
     - env:
       - PGPASSWORD: {{ db_password }}
     - require:
