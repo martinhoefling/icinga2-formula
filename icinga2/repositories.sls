@@ -1,22 +1,20 @@
-{% if grains['os'] == 'Debian' %}
-debmon_repo_required_packages:
+icinga_repo_required_packages:
   pkg.installed:
     - name: python-apt
 
+icinga_repo_absent:
+  pkgrepo.absent:
+    - name: debmon
+
 icinga_repo:
   pkgrepo.managed:
-    - humanname: debmon
-    - name: deb http://debmon.org/debmon debmon-{{ grains['oscodename'] }} main
-    - file: /etc/apt/sources.list.d/debmon.list
-    - key_url: http://debmon.org/debmon/repo.key
+    - humanname: icinga2
+    - name: deb http://packages.icinga.com/debian icinga-{{ grains['oscodename'] }} main
+    - file: /etc/apt/sources.list.d/icinga2.list
+    - key_url: https://packages.icinga.com/icinga.key
     - require:
-      - pkg: debmon_repo_required_packages
+      - pkg: icinga_repo_required_packages
 
-
-{% elif grains['os'] == 'Ubuntu' %}
-
-icinga_repo:
-  pkgrepo.managed:
+foromer_icinga_repo:
+  pkgrepo.absent:
     - ppa: formorer/icinga
-
-{% endif %}
