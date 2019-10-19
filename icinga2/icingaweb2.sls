@@ -72,7 +72,7 @@ icingaweb2-database-schemas:
     - onchanges:
       - postgres_database: icingaweb2-db
 
-{% for username, password_hash in users.iteritems() %}
+{% for username, password_hash in users.items() %}
 
 # TODO: handling for password change via pillar atm
 icingaweb2-user-{{ username }}:

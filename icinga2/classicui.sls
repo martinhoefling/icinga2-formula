@@ -20,7 +20,7 @@ icinga2-classicui:
     - require:
       - pkg: icinga2-classicui
     - contents: |
-{%- for user, password_hash in icinga2.classicui.users.iteritems() %}
+{%- for user, password_hash in icinga2.classicui.users.items() %}
         {{ user }}:{{ password_hash }}
 {%- endfor %}
 

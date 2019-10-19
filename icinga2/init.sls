@@ -5,16 +5,16 @@ include:
 
 {%- macro printconfig(type, object, name, config, applyto="")%}
         {{ type }} {{ object }} "{{ name }}" {% if applyto != "" %}to {% endif %}{{ applyto }}{% if applyto != "" %} {% endif %}{
-{%- for key, value in config.iteritems()%}
+{%- for key, value in config.items()%}
 {%- if key == "import" %}
           {{key}} "{{ value }}"
 {%- endif %}
 {%- endfor %}
 
-{%- for key, value in config.iteritems()%}
+{%- for key, value in config.items()%}
 {%- if key == "import" %}
 {%- elif key == "vars"  %}
-{%- for varkey, varvalue in config.vars.iteritems() %}
+{%- for varkey, varvalue in config.vars.items() %}
           vars.{{ varkey }} = "{{ varvalue }}"
 {%- endfor %}
 
@@ -22,7 +22,7 @@ include:
 
 {%- elif key == "ranges"  %}
           ranges = {
-{%- for rangekey, rangevalue in config.ranges.iteritems() %}
+{%- for rangekey, rangevalue in config.ranges.items() %}
             {{ rangekey }} = "{{ rangevalue }}"
 {%- endfor %}
           }
@@ -68,7 +68,7 @@ icinga2:
 /etc/icinga2/conf.d/hosts/:
   file.directory
 
-{% for host, hostconf in icinga2.conf.hosts.iteritems() %}
+{% for host, hostconf in icinga2.conf.hosts.items() %}
 
 /etc/icinga2/conf.d/hosts/{{ host }}.conf:
   file.managed:
@@ -83,7 +83,7 @@ icinga2:
 /etc/icinga2/conf.d/hosts/{{ host }}:
   file.directory
 
-{% for service, serviceconf in hostconf.services.iteritems() %}
+{% for service, serviceconf in hostconf.services.items() %}
 
 /etc/icinga2/conf.d/hosts/{{ host }}/{{ service }}.conf:
   file.managed:
@@ -110,7 +110,7 @@ icinga2:
     - watch_in:
       - service: icinga2
     - contents: |
-{% for hostgroup, hostgroupconf in icinga2.conf.hostgroups.iteritems() %}
+{% for hostgroup, hostgroupconf in icinga2.conf.hostgroups.items() %}
 {{ printconfig("object", "HostGroup", hostgroup, hostgroupconf) }}
 
 {% endfor %}
@@ -121,7 +121,7 @@ icinga2:
 
 {% if icinga2.conf.usergroups is defined %}
 
-{% for usergroup, usergroupconf in icinga2.conf.usergroups.iteritems() %}
+{% for usergroup, usergroupconf in icinga2.conf.usergroups.items() %}
 /etc/icinga2/conf.d/usergroups/{{ usergroup }}.conf:
   file.managed:
     - makedirs: True
@@ -138,7 +138,7 @@ icinga2:
 
 {% if icinga2.conf.users is defined %}
 
-{% for user, userconf in icinga2.conf.users.iteritems() %}
+{% for user, userconf in icinga2.conf.users.items() %}
 /etc/icinga2/conf.d/users/{{ user }}.conf:
   file.managed:
     - makedirs: True
@@ -158,7 +158,7 @@ icinga2:
     - require:
       - pkg: icinga2
 
-{% for template, templateinfo in icinga2.conf.templates.iteritems() %}
+{% for template, templateinfo in icinga2.conf.templates.items() %}
 /etc/icinga2/conf.d/templates/{{ template }}.conf:
   file.managed:
     - require:
@@ -174,7 +174,7 @@ icinga2:
 
 ### Begin apply configuration
 {% set applies = { "downtimes": "ScheduledDowntime", "services": "Service", "notifications": "Notification", "dependencies": "Dependency"} %}
-{% for type, objecttype in applies.iteritems() %}
+{% for type, objecttype in applies.items() %}
 
 {% if icinga2.conf[type] is defined %}
 /etc/icinga2/conf.d/{{ type }}:
@@ -182,7 +182,7 @@ icinga2:
     - require:
       - pkg: icinga2
 
-{% for apply, applyinfo in icinga2.conf[type].iteritems() %}
+{% for apply, applyinfo in icinga2.conf[type].items() %}
 {% set applyto = applyinfo["apply_to"]|default('') %}
 /etc/icinga2/conf.d/{{ type }}/{{ apply }}.conf:
   file.managed:
