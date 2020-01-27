@@ -27,10 +27,7 @@ include:
   - icinga2.postgresql
   - icinga2.pgsql-ido
 
-{% set php = 'php5' %}
-{% if grains.get('os') == 'Debian' and grains.get('osrelease') >= 9.0 %}
 {% set php = 'php' %}
-{% endif %}
 
 icingaweb2_pkgs:
   pkg.installed:
